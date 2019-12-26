@@ -12,8 +12,8 @@ typedef int ElemType;
 #define LIST_INIT_SIZE  100
 #define LISTINCREAMENT 10
 
-typedef struct {
-	ElemType* elem;
+typedef struct {                    //å®šä¹‰çº¿æ€§è¡¨çš„åŸºæœ¬ç»“æ„ *elem è¿™ä¸ªæ˜¯ç†è§£çš„å…³é”®  è¿™ä¸ªä¸ºæ•´ä¸ªçº¿æ€§è¡¨åŸºåœ°å€  åç»­å¯é€šè¿‡ L.elem[x]æ¥è®¿é—®
+	ElemType* elem;             //é¡ºåºè¡¨ç¬¬xä¸ªå…ƒç´ 
 	int length;
 	int listsize;
 }Sqlist;
@@ -24,54 +24,54 @@ Status InitList(Sqlist& L) {
 	L.length = 0;
 	L.listsize = LIST_INIT_SIZE;
 	return OK;
-}//³õÊ¼»¯ÏßĞÔ±í
+}//åˆå§‹åŒ–çº¿æ€§è¡¨
 
-Status GetElem(Sqlist& L, int i, ElemType& e) {
+Status GetElem(Sqlist& L, int i, ElemType& e) {       //å°†è¯»åˆ°çš„å…ƒç´ è¿”å›ç»™ e
 	if (i<1 || i>L.length) return ERROR;
 	e = *(L.elem + i - 1);
 	return OK;
-}//¶Á±íÔª
+}//è¯»è¡¨å…ƒ
 
 void LocateElem(Sqlist& L, ElemType e) {
-	//²éÕÒÔªËØ
+	//æŸ¥æ‰¾å…ƒç´ 
 	ElemType* p = L.elem;
 	ElemType q =0;
 	ElemType i = 1;
-	if (*p == e) printf("ÔÚµÚ1¸öÎ»ÖÃ");
+	if (*p == e) printf("åœ¨ç¬¬1ä¸ªä½ç½®");
 	while (i <= L.length && *p++ != e) {
 		i++;
 		if (*p == e)
 		{
 			q = *p;
-			printf("ÔÚµÚ %d ¸öÎ»ÖÃ\n", i);
+			printf("åœ¨ç¬¬ %d ä¸ªä½ç½®\n", i);
 		}
 	}
 	
 	if ((i-1) == L.length && q != e)
-		printf("ÏßĞÔ±íÖĞÎŞ´ËÔªËØ\n");
+		printf("çº¿æ€§è¡¨ä¸­æ— æ­¤å…ƒç´ \n");
 	
 }
 Status ListInsert(Sqlist& L, int i, ElemType e) {
 	ElemType* q, * p;
 	ElemType* newbase = NULL;
-	if (i<1 || i>L.length + 1) // iÖµ²»ºÏ·¨
+	if (i<1 || i>L.length + 1) // iå€¼ä¸åˆæ³•
 		return ERROR;
 	if (L.length >= L.listsize)
 	{
-		// µ±Ç°´æ´¢¿Õ¼äÒÑÂú,Ôö¼Ó·ÖÅä£¬²¢²åÈëÔªËØ
+		// å½“å‰å­˜å‚¨ç©ºé—´å·²æ»¡,å¢åŠ åˆ†é…ï¼Œå¹¶æ’å…¥å…ƒç´ 
 		newbase = (ElemType*)realloc(L.elem, (L.listsize + LISTINCREAMENT) * sizeof(ElemType));
 
 		if (!newbase)
-			exit(OVERFLOW); // ´æ´¢·ÖÅäÊ§°Ü
-		L.listsize += 10; // Ôö¼Ó´æ´¢ÈİÁ¿
+			exit(OVERFLOW); // å­˜å‚¨åˆ†é…å¤±è´¥
+		L.listsize += 10; // å¢åŠ å­˜å‚¨å®¹é‡
 		q = &(L.elem[i - 1]);
 		for (p = &(L.elem[L.length - 1]); p >= q; --p)
 			* (p + 1) = *p;
-		*q = e;        //²åÈëÔªËØ
+		*q = e;        //æ’å…¥å…ƒç´ 
 		++L.length;
 	}
 
-	//´ËÎª´æ´¢¿Õ¼ä×ã¹»µÄÇé¿ö
+	//æ­¤ä¸ºå­˜å‚¨ç©ºé—´è¶³å¤Ÿçš„æƒ…å†µ
 	q = &(L.elem[i - 1]);
 	for (p = &(L.elem[L.length - 1]); p >= q; --p)
 		* (p + 1) = *p;
@@ -125,7 +125,7 @@ Status ListDelete(Sqlist& L, int i) {
 	--L.length;
 	return OK;
 }
-void Inverse(Sqlist& L) {
+void Inverse(Sqlist& L) {       //å°†é¡ºåºè¡¨é€†ç½®
 	int i;
 	ElemType* p, temp;
 	p = L.elem;
@@ -135,7 +135,7 @@ void Inverse(Sqlist& L) {
 		*(L.elem + L.length - i - 1) = temp;
 	}
 }
-int max(Sqlist& L) {
+int max(Sqlist& L) {     //æ±‚é¡ºåºè¡¨æœ€å¤§å€¼
 	int i = 0;
 	int k = L.elem[i];
 	for (; i < L.length - 1; i++) {
@@ -144,7 +144,7 @@ int max(Sqlist& L) {
 	}
 	return k;
 }
-int min(Sqlist& L) {
+int min(Sqlist& L) {   
 	int i = 0;
 	int k= L.elem[i];
 	for (; i < L.length - 1; i++) {
@@ -153,7 +153,7 @@ int min(Sqlist& L) {
 	}
 	return k;
 }
-void Merge(Sqlist La, Sqlist Lb, Sqlist& Lc) {
+void Merge(Sqlist La, Sqlist Lb, Sqlist& Lc) {    //å°†ä¸¤ä¸ªæœ‰åºè¡¨åˆå¹¶æˆæ–°çš„æœ‰åºè¡¨ï¼Œå¹¶ä¸”å»é™¤é‡å¤å…ƒç´ 
 	ElemType* pa = La.elem;
 	ElemType* pb = Lb.elem;
 	int i, j;
@@ -188,52 +188,50 @@ void Merge(Sqlist La, Sqlist Lb, Sqlist& Lc) {
 
 }
 int main(void) {
-	printf("ÒÔÊäÈëËÄ¸öÔªËØµÄÏßĞÔ±íÎª²âÊÔ£¬ÏßĞÔ±íµÄÊäÈë¸öÊıÓÉº¯Êıµ÷¿Ø\n");
+	printf("ä»¥è¾“å…¥å››ä¸ªå…ƒç´ çš„çº¿æ€§è¡¨ä¸ºæµ‹è¯•ï¼Œçº¿æ€§è¡¨çš„è¾“å…¥ä¸ªæ•°ç”±å‡½æ•°è°ƒæ§\n");
 	Sqlist ts;
 	InitList(ts);
-	printf("ÇëÊäÈëËÄ¸öÔªËØ\n");
+	printf("è¯·è¾“å…¥å››ä¸ªå…ƒç´ \n");
 	Input_List(ts, 4);
 	Output(ts);
 
 	ElemType x;
-	printf("²éÕÒÓĞÃ»2Õâ¸öÔªËØ\n");
+	printf("æŸ¥æ‰¾æœ‰æ²¡2è¿™ä¸ªå…ƒç´ \n");
 	LocateElem(ts, 2);
 
-	printf("¾­¹ıÄæÖÆºó\n");
+	printf("ç»è¿‡é€†åˆ¶å\n");
 	Inverse(ts);
 	Output(ts);
 
-
-
 	sort(ts);
-	printf("¾­¹ıÅÅĞòºóµÄÊÇ\n");
+	printf("ç»è¿‡æ’åºåçš„æ˜¯\n");
 	Output(ts);
 
-	printf("×î´óµÄÊıÊÇ%d \n", max(ts));
-	printf("×îĞ¡µÄÊıÊÇ%d \n", min(ts));
+	printf("æœ€å¤§çš„æ•°æ˜¯%d \n", max(ts));
+	printf("æœ€å°çš„æ•°æ˜¯%d \n", min(ts));
 	int k;
-	printf("ÇëÊäÈëÒª¶ÁÈ¡µÄÔªËØÎ»ÖÃ\n");
+	printf("è¯·è¾“å…¥è¦è¯»å–çš„å…ƒç´ ä½ç½®\n");
 	scanf("%d",&k);
 
 	GetElem(ts, k, x);
-	printf("µÚ%d¸öÔªËØÊÇ%d\n", k, x);
+	printf("ç¬¬%dä¸ªå…ƒç´ æ˜¯%d\n", k, x);
 
 	Sqlist tpps;
 	InitList(tpps);
-	printf("ÇëÊäÈëËÄ¸öÔªËØ\n");
+	printf("è¯·è¾“å…¥å››ä¸ªå…ƒç´ \n");
 	Input_List(tpps, 4);
 
-	printf("ÔÚµÚÈı¸öÎ»ÖÃ²åÈë8\n");
+	printf("åœ¨ç¬¬ä¸‰ä¸ªä½ç½®æ’å…¥8\n");
 	ListInsert(tpps, 3, 8);
 	Output(tpps);
 
-	printf("É¾³ıµÚÈı¸öÔªËØ\n");
+	printf("åˆ é™¤ç¬¬ä¸‰ä¸ªå…ƒç´ \n");
 	ListDelete(tpps, 3);
 	Output(tpps);
 
 	Sqlist dc;
 	Merge(ts, tpps, dc);
-	printf("ºÏ²¢ºóÈçÏÂ");
+	printf("åˆå¹¶åå¦‚ä¸‹");
 	Output(dc);
 	return 0;
 
